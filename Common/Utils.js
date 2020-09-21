@@ -20,3 +20,7 @@ function getActiveSheetInstance() {
     return activeSheetCache;
   }
 }
+
+function notUndefined(value) {
+  return typeof value !== "undefined"
+}
