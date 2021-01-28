@@ -7,9 +7,13 @@ const CELL_PLAYER_ANSWER = "$C$4"
 const CELL_MASTER_CARD_COUNT = "$E$3"
 const CELL_PLAYER_CARDS_COLUMN = "$B"
 const CELL_PLAYER_CARDS_ROW = 4
+const CELL_PLAYER_PLAY_CARD = "C4"
 const ROW_MASTER_PLAYER_START = 2
+const MAX_PLAYER_CARD_COUNT = 10
+const RANGE_PLAYER_CARDS_MAX = CELL_PLAYER_CARDS_COLUMN + CELL_PLAYER_CARDS_ROW + ":" + CELL_PLAYER_CARDS_COLUMN + (CELL_PLAYER_CARDS_ROW + MAX_PLAYER_CARD_COUNT)
 
 function setupCards() {
+  clearCards()
   const cardCount = getSheetInstanceByName(SHEET_NAME_MASTER).getRange(CELL_MASTER_CARD_COUNT).getValue()
   const cards = Array(100).fill(0).map((_, i) => i + 1)
   Logger.log(cards)
@@ -22,7 +26,19 @@ function setupCards() {
     }
     getSheetInstanceByName(`player${i}`)
       .getRange(`${CELL_PLAYER_CARDS_COLUMN + CELL_PLAYER_CARDS_ROW}:${CELL_PLAYER_CARDS_COLUMN}${CELL_PLAYER_CARDS_ROW + cardCount - 1}`)
-      .setValues(playerCards)
+      .setValues(playerCards.sort(compareFunc))
+  }
+}
+
+function compareFunc(a, b) {
+  return a - b;
+}
+
+function clearCards() {
+  for (let i = 1; i <= PLAYER_COUNT; i++) {
+    const sheet = getSheetInstanceByName(`player${i}`)
+    sheet.getRange(RANGE_PLAYER_CARDS_MAX).clear()
+    sheet.getRange(CELL_PLAYER_PLAY_CARD).clear()
   }
 }
 
