@@ -18,7 +18,7 @@ function clear() {
   for (let i = 1; i <= PLAYER_COUNT; i++) {
     getSheetInstanceByName(`player${i}`).getRange("A3").setValue("")
   }
-  const answersRangeValues = Array(PLAYER_COUNT).fill(0).map((_, i) => ["=player" + (i + 1) + "!A3", "=player" + (i + 1) + "!A3"])
+  const answersRangeValues = Array(PLAYER_COUNT).fill(0).map((_, i) => ["=player" + (i + 1) + "!$A$3", "=player" + (i + 1) + "!$A$3"])
   getSheetInstanceByName(SHEET_NAME_ANSWER_MERGE).getRange(ANSWERS_RANGE).setValues(answersRangeValues)
   const answererRange = ANSWERER_ANSWER_RANGE
   const answererRangeValues = Array(PLAYER_COUNT).fill(0).map((_, i) => [""])
