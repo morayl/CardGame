@@ -24,3 +24,7 @@ function getActiveSheetInstance() {
 function notUndefined(value) {
   return typeof value !== "undefined"
 }
+
+function randomNumber(min, maxLess) {
+  return Math.floor(Math.random() * (maxLess - min) + min)
+}
