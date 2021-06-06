@@ -1,18 +1,17 @@
-const PLAYER_COUNT = 3
+const PLAYER_COUNT = 4
 const ANSWER_RANGE_BASE = 3
 const ANSWERS_RANGE = `B${ANSWER_RANGE_BASE}:C${ANSWER_RANGE_BASE + PLAYER_COUNT - 1}`
 const ANSWERER_ANSWER_RANGE = `B${ANSWER_RANGE_BASE}:B${ANSWER_RANGE_BASE + PLAYER_COUNT - 1}`
 const DISTINCT_ANSWERS_RANGE = `B${ANSWER_RANGE_BASE}:B${ANSWER_RANGE_BASE + PLAYER_COUNT - 1}`
 const ANSWER_SHEET_NAMES_RANGE = `A${ANSWER_RANGE_BASE}:A${ANSWER_RANGE_BASE + PLAYER_COUNT - 1}`
-const PLAYER_SHEET_NAME_ANSWER = "A2:A3"
+const PLAYER_SHEET_NAME_ANSWER = "A1:A3"
 const THEME_SHEET_QUESTIONER = "D2"
 
 const SHEET_NAME_ANSWER_MERGE = "回答合わせ"
 const SHEET_NAME_ANSERER = "回答者"
 const SHEET_NAME_THEME = "お題"
 
-const SETUP_NAME = "名前はここ"
-const SETUP_ANSWER = "回答はここ"
+const PLAYER_SHEET_INITIAL_VALUES = [["↓セルA2↓に名前を入れてね"], ["名前はここ"], ["回答はここ"]]
 
 function clear() {
   for (let i = 1; i <= PLAYER_COUNT; i++) {
@@ -34,11 +33,10 @@ function showAnswers() {
 
 function setup() {
   const namesRangeValues = Array(PLAYER_COUNT).fill(0).map((_, i) => ["=player" + (i + 1) + "!A2"])
-  getSheetInstanceByName(SHEET_NAME_ANSWER_MERGE).getRange(ANSWER_SHEET_NAMES_RANGE).setValues(namesRangeValues)
-  getSheetInstanceByName(SHEET_NAME_ANSERER).getRange(ANSWER_SHEET_NAMES_RANGE).setValues(namesRangeValues)
-  const playerNameAnswerValues = [[SETUP_NAME], [SETUP_ANSWER]]
+  insertOrGetSheet(SHEET_NAME_ANSWER_MERGE).getRange(ANSWER_SHEET_NAMES_RANGE).setValues(namesRangeValues)
+  insertOrGetSheet(SHEET_NAME_ANSERER).getRange(ANSWER_SHEET_NAMES_RANGE).setValues(namesRangeValues)
   for (let i = 1; i <= PLAYER_COUNT; i++) {
-    getSheetInstanceByName(`player${i}`).getRange(PLAYER_SHEET_NAME_ANSWER).setValues(playerNameAnswerValues)
+    insertOrGetSheet(`player${i}`).getRange(PLAYER_SHEET_NAME_ANSWER).setValues(PLAYER_SHEET_INITIAL_VALUES)
   }
 }
 
